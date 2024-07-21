@@ -9,7 +9,7 @@ Still in development :(
 ## Features
 * Metroidivania-like level design
 * Reading notes and describing items
-  /More to come...
+  !More to come...
 
  ## Game Features
 * Solving puzzles and uncovering the story
