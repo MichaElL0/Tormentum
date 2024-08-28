@@ -13,7 +13,7 @@ public class Shooting : MonoBehaviour
     public int bulletsPerShot = 6;
     public int range = 75;
     public int maxMagSize = 2;
-    public int bulletsIn;
+    public int bulletsInMagazine;
     public int bulletsInTotal = 12;
 	public float maxEffectiveDistance = 15f;
     public float reloadTime, spread;
@@ -52,19 +52,18 @@ public class Shooting : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-        bulletsIn = maxMagSize;
+		bulletsInMagazine = maxMagSize;
 		canShoot = true;
     }
 
     // Update is called once per frame
     void Update()
     {
+		noAmmo = bulletsInMagazine > 0 ? noAmmo = false : noAmmo = true;
 
-		noAmmo = bulletsIn > 0 ? noAmmo = false : noAmmo = true;
-
-		if (bulletsIn <= 0)
+		if (bulletsInMagazine <= 0)
 		{
-			bulletsIn = 0;
+			bulletsInMagazine = 0;
 		}
 
 		if (canShoot == true)
@@ -84,7 +83,7 @@ public class Shooting : MonoBehaviour
 		}
 
 
-		if (Input.GetKey(KeyCode.R) && reloading == false && shooting == false && bulletsIn != maxMagSize && bulletsInTotal != 0)
+		if (Input.GetKey(KeyCode.R) && reloading == false && shooting == false && bulletsInMagazine != maxMagSize && bulletsInTotal != 0)
 		{
 			print("Reloading started...");
 			reloadCoroutine = StartCoroutine(ReloadCoroutine());
@@ -103,9 +102,8 @@ public class Shooting : MonoBehaviour
     void Shoot()
     {
 		if(!gunSource.isPlaying)
-		{
 			gunSource.Play();
-		}
+		
 			
 		gunSource.Play();
 
@@ -116,7 +114,7 @@ public class Shooting : MonoBehaviour
 		ImpulseShake.Shake(0.5f); 
 
         shooting = true;
-        bulletsIn--;
+		bulletsInMagazine--;
 
 		for (int i = 0; i < bulletsPerShot; i++)
 		{
@@ -173,19 +171,19 @@ public class Shooting : MonoBehaviour
 
     void Reload()
     {
-		if(bulletsIn == 1 && bulletsInTotal > 0)
+		if(bulletsInMagazine == 1 && bulletsInTotal > 0)
 		{
-			bulletsIn++;
+			bulletsInMagazine++;
 			bulletsInTotal--;
 		}
-		else if(bulletsIn == 0 && bulletsInTotal > 0)
+		else if(bulletsInMagazine == 0 && bulletsInTotal > 0)
 		{
-			bulletsIn += 2;
+			bulletsInMagazine += 2;
 			bulletsInTotal -= 2;
 		}
-		else if(bulletsIn < 2 && bulletsInTotal == 1)
+		else if(bulletsInMagazine < 2 && bulletsInTotal == 1)
 		{
-			bulletsIn++;
+			bulletsInMagazine++;
 			bulletsInTotal--;
 		}
 		print("Reloaded");
